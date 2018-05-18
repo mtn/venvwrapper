@@ -35,16 +35,9 @@ if __name__ == "__main__":
         res = subprocess.run(["virtualenv", venv_path])
 
     # If creation is successful, report success and source it
-    if res == 0:
+    if res.returncode == 0:
+        print("")
         print("Created virtual environment {}".format(args.name))
-
-        activate_path = "{}/bin/activate".format(venv_path)
-        res = subprocess.run(["source", activate_path])
-
-        if res == 0:
-            print("Sourced new virtual environment {}".format(args.name))
-        else:
-            die("An error occured. Try checking {} for oddities.".format(VENV_DIR))
-
+        print("Activate with workon {}".format(args.name))
     else:
         die("An error occured. Try checking {} for oddities.".format(VENV_DIR))

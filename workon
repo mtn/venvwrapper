@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Script to source venv
+
+workon () {
+    if [ -z "$1" ]
+    then
+        echo "Workon requires virtualenv name, aborting"
+    else
+        if [ -d "$HOME"/.virtualenvs/"$1" ]
+        then
+            source "$HOME"/.virtualenvs/"$1"/bin/activate
+        else
+            echo "No virtualenv named $1 exists. Try mkvenv?"
+        fi
+    fi
+}
