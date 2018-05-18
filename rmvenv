@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Script to delete venv
+
+rmvenv () {
+    if [ -z "$1" ]
+    then
+        echo "rmvenv requires virtualenv name, aborting"
+        exit 1
+    else
+        if [[ "$VIRTUAL_ENV" == "$HOME"/.virtualenvs/"$1" ]]
+        then
+            deactivate
+        fi
+
+        rm -rf "$HOME"/.virtualenvs/"$1"
+        echo "Removed virtualenv $1"
+    fi
+}
