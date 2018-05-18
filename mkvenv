@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+"""
+Script to create venv
+"""
+
+import os
+import argparse
+import subprocess
+
+VENV_DIR = os.path.expanduser("~/.virtualenvs")
+
+
+def die(msg):
+    print(msg)
+    exit(1)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Script for creating virtual environments")
+    parser.add_argument("name", help="virtual environment name")
+    parser.add_argument("-p", "--python", help="python version")
+    args = parser.parse_args()
+
+    if not os.path.isdir(VENV_DIR):
+        os.mkdir(VENV_DIR)
+
+    venv_path = "{}/{}".format(VENV_DIR, args.name)
+    # Check if one already exists with the same name
+    if os.path.exists(venv_path):
+        die("A virtual environment named {} already exists, aborting.".format(args.name))
+
+    # Otherwise, create it
+    if args.python:
+        res = subprocess.run(["virtualenv", venv_path, "-p", args.python])
+    else:
+        res = subprocess.run(["virtualenv", venv_path])
+
+    # If creation is successful, report success and source it
+    if res == 0:
+        print("Created virtual environment {}".format(args.name))
+
+        activate_path = "{}/bin/activate".format(venv_path)
+        res = subprocess.run(["source", activate_path])
+
+        if res == 0:
+            print("Sourced new virtual environment {}".format(args.name))
+        else:
+            die("An error occured. Try checking {} for oddities.".format(VENV_DIR))
+
+    else:
+        die("An error occured. Try checking {} for oddities.".format(VENV_DIR))
