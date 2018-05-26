@@ -4,29 +4,30 @@ These are a few scripts for managing virtual environments. I know good solutions
 
 ## Usage
 
-To create a new virtual environment:
+To create a new virtual environment and activate it:
 
 ```
 mkvenv VENV_NAME [-p PYTHON_VERSION]
 ```
 
-In practice I only used the `-p` option, so that's all this has.
+In practice I only used the `-p` option (to select python version), so that's all this has.
 
 To activate an existing (in `$HOME/.virtualenvs`) virtual environment:
 ```
 workon VENV_NAME
 ```
 
-To delete a virtual environment
+To delete a virtual environment:
 ```
 rmvenv VENV_NAME
 ```
 
-Of course, these are only useful when sourced/in the path. `mkvenv` is python script, so that can be placed in `/usr/local/bin` or added to `$PATH`. `workon` and `rmenv` should be sourced in a `.bashrc` or `.zshrc`. For example, I have the lines
+Of course, these are only useful when sourced. For example, I have the lines
 
 ```zsh
+source /usr/local/bin/mkvenv
 source /usr/local/bin/workon
 source /usr/local/bin/rmvenv
 ```
 
-in my `.zshrc`. Perhaps I'll rewrite `mkvenv` as a bash script for consistency, at some later point.
+in my `.zshrc`.
