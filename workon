@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
 # Script to source venv
+# Author: Michael Noronha
 
 workon () {
-    if [ -z "$1" ]
-    then
+    if [ -z "$1" ]; then
         echo "Workon requires virtualenv name, aborting"
+        return 1
     else
-        if [ -d "$HOME"/.virtualenvs/"$1" ]
-        then
+        if [ -d "$HOME"/.virtualenvs/"$1" ]; then
             source "$HOME"/.virtualenvs/"$1"/bin/activate
+
+            if ! [ "$?" -eq 0 ]; then
+                echo "An error occured. Try checking VENVDIR for oddities."
+                return 1
+            fi
         else
             echo "No virtualenv named $1 exists. Try mkvenv?"
+            return 1
         fi
     fi
 }

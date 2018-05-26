@@ -1,43 +1,63 @@
-#!/usr/bin/env python3
-"""
-Script to create venv
-"""
+#!/usr/bin/env bash
+# Script to create venv
+# Author: Michael Noronha
 
-import os
-import argparse
-import subprocess
+mkvenv () {
+    local OPTIND PYTHON VENVNAME
 
-VENV_DIR = os.path.expanduser("~/.virtualenvs")
+    if [ -z "$1" ]; then
+        echo "mkvenv requires virtualenv name, aborting"
+        return 1
+    else
+        PYTHON=""
+        VENVNAME=""
+
+        while [ $# -gt 0  ]; do
+            OPTIND=1
+
+            while getopts p: opt; do
+                case "$opt" in
+                p)  PYTHON=${OPTARG}
+                    ;;
+                esac
+            done
+
+            shift $((OPTIND-1))
+
+            if ! [ -z "$1" ]; then
+                VENVNAME="$1"
+                shift
+            fi
+        done
 
 
-def die(msg):
-    print(msg)
-    exit(1)
+        if [ -z "$VENVNAME" ]; then
+            echo "mkvenv requires virtualenv name, aborting"
+            return 1
+        else
+            VENVPATH=$HOME/.virtualenvs/$VENVNAME
+            if [ -d "$VENVPATH" ]; then
+                echo "A virtual environment named $VENVNAME already exists, aborting."
+                return 1
+            fi
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Script for creating virtual environments")
-    parser.add_argument("name", help="virtual environment name")
-    parser.add_argument("-p", "--python", help="python version")
-    args = parser.parse_args()
+            if ! [ -z "$PYTHON" ]; then
+                virtualenv "$VENVPATH" -p "$PYTHON"
+            else
+                virtualenv "$VENVPATH"
+            fi
 
-    if not os.path.isdir(VENV_DIR):
-        os.mkdir(VENV_DIR)
+            if [ "$?" -eq 0 ]; then
+                echo "Created virtual environment $VENVNAME"
+                workon "$VENVNAME"
 
-    venv_path = "{}/{}".format(VENV_DIR, args.name)
-    # Check if one already exists with the same name
-    if os.path.exists(venv_path):
-        die("A virtual environment named {} already exists, aborting.".format(args.name))
+                if [ "$?" -eq 0 ]; then
+                    echo "Activated!"
+                    return 0
+                fi
+            fi
 
-    # Otherwise, create it
-    if args.python:
-        res = subprocess.run(["virtualenv", venv_path, "-p", args.python])
-    else:
-        res = subprocess.run(["virtualenv", venv_path])
-
-    # If creation is successful, report success and source it
-    if res.returncode == 0:
-        print("")
-        print("Created virtual environment {}".format(args.name))
-        print("Activate with workon {}".format(args.name))
-    else:
-        die("An error occured. Try checking {} for oddities.".format(VENV_DIR))
+            echo "An error occured. Try checking $VENVDIR for oddities."
+        fi
+    fi
+}
