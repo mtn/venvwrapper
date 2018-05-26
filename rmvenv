@@ -5,7 +5,6 @@ rmvenv () {
     if [ -z "$1" ]
     then
         echo "rmvenv requires virtualenv name, aborting"
-        exit 1
     else
         if [[ "$VIRTUAL_ENV" == "$HOME"/.virtualenvs/"$1" ]]
         then
