@@ -1,4 +1,6 @@
-# venvwrapper
+# venvwrapper (deprecated)
+
+This is now deprecated. I use Pipenv instead.
 
 These are a few scripts for managing virtual environments. I know good solutions exist, and previously used `virtualenvwrapper`, but the time scripts would take to be sourced was annoying enough that I decided to quickly try out something myself. Of course, the functionality is much more limited, implementing exactly what I used `virtualenvwrapper` for and nothing more.
 

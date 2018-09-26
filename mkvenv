@@ -57,7 +57,7 @@ mkvenv () {
                 fi
             fi
 
-            echo "An error occured. Try checking $VENVDIR for oddities."
+            echo "An error occured. Try checking $VENVPATH for oddities."
         fi
     fi
 }
