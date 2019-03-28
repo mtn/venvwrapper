@@ -30,6 +30,14 @@ Of course, these are only useful when sourced. For example, I have the lines
 source /usr/local/bin/mkvenv
 source /usr/local/bin/workon
 source /usr/local/bin/rmvenv
+source /usr/local/bin/venv-completions
 ```
 
-in my `.zshrc`.
+in my `.zshrc`. For `zsh`, it might also be necessary to include
+
+```zsh
+autoload bashcompinit
+bashcompinit
+```
+
+to make the completions work.
