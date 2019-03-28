@@ -1,0 +1,10 @@
+#/usr/bin/env bash
+
+_list_venvs () {
+    # Set
+    IFS=$'\n' tmp=( $(compgen -W "$(ls "$HOME/.virtualenvs")" -- "${COMP_WORDS[$COMP_CWORD]}" ))
+    COMPREPLY=( "${tmp[@]// /\ }" )
+}
+
+complete -o default -F _list_venvs workon
+complete -o default -F _list_venvs rmvenv
